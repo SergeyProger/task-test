@@ -1,16 +1,19 @@
 import React from "react"
-import PropTypes from "prop-types"
+
 class Test extends React.Component {
+  constructor(props){
+    super(props)
+      this.rad = this.props.data
+  }
+
+
   render () {
     return (
-      <React.Fragment>
-        Greeting: {this.props.greeting}
-      </React.Fragment>
+     <div>
+         {this.rad}
+     </div>
     );
   }
 }
 
-Test.propTypes = {
-  greeting: PropTypes.string
-};
 export default Test;
