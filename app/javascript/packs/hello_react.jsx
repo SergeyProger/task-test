@@ -11,6 +11,7 @@ class Hello extends React.Component {
 
     constructor(props) {
         super(props);
+        this.text = ['ноль', 'один','два','три','четыре','пять','шесть', 'семь', 'восемь', 'девять','десять'];
         this.state = {
             costs: []
         };
@@ -18,12 +19,13 @@ class Hello extends React.Component {
 
     componentDidMount() {
         try {
-            let rad = JSON.parse(document.querySelector('script[data]').getAttribute('data'));
+            let rad = document.querySelector('script[data]').getAttribute('data');
             this.setState({costs: rad});
         } catch (e) {
             console.log(e);
         }
     }
+
     updateCost(cost) {
         this.setState({costs: cost });
     }
@@ -32,18 +34,26 @@ class Hello extends React.Component {
         let cost = this.refs.cost.value;
         console.log('tic' + cost);
         $.ajax({
-                url: `/index/`,
-                type: 'GET',
+                url: `/index`,
+                type: 'POST',
                 data: {cost: cost},
-                success: (cost) => {
-                    this.updateCost(cost);
+                success: function(data){
+                    alert(data);
+                    this.updateCost(data);
                 }
             }
         )
     }
+
+
     render(){
 
-    return (<input ref='cost' placeholder={this.state.costs} onChange={this.handleChange}/>);
+    return (
+        <div>
+        <input ref='cost' placeholder="Введите сумму" onChange={this.handleChange}/>
+            <h2>Вы ввели {this.state.costs} <br/></h2>
+        </div>
+    );
     }
 }
 
