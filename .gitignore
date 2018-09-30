@@ -14,6 +14,12 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+.idea*
+.idea/
+.idea/workspace.xml
+.idea/.generators
+.idea/hello_app.iml
+.idea/workspace.xml
 !/log/.keep
 !/tmp/.keep
 
