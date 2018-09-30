@@ -1,10 +1,10 @@
 class CostController < ApplicationController
-  #protect_from_forgery with: :null_session
+  protect_from_forgery with: :null_session
 
   def index
     if params[:cost]
       @answer = rublej(params[:cost].to_i)
-      render  json: @answer
+      render plain: @answer
     else
       @answer = rublej(983456778)
 
