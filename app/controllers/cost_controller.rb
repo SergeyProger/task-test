@@ -1,16 +1,13 @@
 class CostController < ApplicationController
-  protect_from_forgery with: :null_session
+  #protect_from_forgery with: :null_session
 
   def index
-    debugger
-    byebug
     if params[:cost]
-      @answer = rublej(params[:cost])
-      respond_to do |format|
-        format.json {render json: @answer, status: :ok}
-      end
+      @answer = rublej(params[:cost].to_i)
+      render  json: @answer
     else
-      @answer = "введите сумму"
+      @answer = rublej(983456778)
+
     end
   end
 
