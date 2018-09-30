@@ -1,24 +1,15 @@
 # README
+Task description:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Create a Rails application, which will convert a number to a money string (please, choose Russian or Ukrainian language). 
+Application has to convert 1 to “одна гривна“, 1234567 to “один миллион двести тридцать четыре тысячи пятьсот шестьдесят семь гривен“, 
+etc. Words should have correct endings: “1 гривна“, “2 гривны“, “5 гривен“, “3 миллиона“, “3 тысячи“, etc. (provided examples are for Russian)
 
-Things you may want to cover:
+Implement main logic on server-side (Ruby). It’s a logical test, so solution shouldn’t be based on a gem or something like that.
 
-* Ruby version
+Your app should have one page which would consist of one text input (without any submit buttons). Once number is entered/changed its text equivalent should appear below.
 
-* System dependencies
+Application should work properly with integer numbers from 0 to 999999999.
+You may use a front-end framework: Vue, React or Angular.
+Please do this on your github account as a public repo. Make frequent commits and use best practices. 
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

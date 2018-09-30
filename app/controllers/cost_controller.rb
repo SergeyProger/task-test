@@ -6,17 +6,9 @@ class CostController < ApplicationController
       @answer = rublej(params[:cost].to_i)
       render plain: @answer
     else
-      @answer = rublej(983456778)
-
+      @answer = "Введите сумму платежа в рублях"
     end
   end
-
-  CURRENCIES = {
-      "rur" => :rublej,
-      "rub" => :rublej
-  }
-
-  SUPPORTED_CURRENCIES = CURRENCIES.keys.join ','
 
   TRANSLATIONS = {
       'ru' => {
@@ -203,6 +195,14 @@ class CostController < ApplicationController
       },
 
   }
+
+  CURRENCIES = {
+      "rur" => :rublej,
+      "rub" => :rublej
+  }
+
+  SUPPORTED_CURRENCIES = CURRENCIES.keys.join ','
+
   # Переименовал предложный падеж из _in в _pre (prepositional)
   # Оставил 'ru_in' для обратной совместимости
   TRANSLATIONS['ru_pre'] = TRANSLATIONS['ru_in']
@@ -232,7 +232,7 @@ class CostController < ApplicationController
   end
 
 
-  # Выводит целое или дробное число как сумму в рублях прописью
+  # Выводит число как сумму в рублях прописью
   #
   #   rublej(345) #=> "триста сорок пять рублей "
   #
