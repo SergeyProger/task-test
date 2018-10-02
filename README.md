@@ -1,4 +1,4 @@
-# Task test project
+# Test task project
 
 Task description
 

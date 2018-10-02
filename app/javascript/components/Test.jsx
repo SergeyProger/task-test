@@ -27,7 +27,7 @@ class Test extends React.Component {
 
         return (
             <div>
-              <input ref='cost' placeholder="Введите сумму" onChange={this.handleChange} style={{width: 50+'%', height: 40+'px'}}/>
+              <input type='number' min='1' max='999999999' ref='cost' placeholder="Введите сумму" onChange={this.handleChange} style={{width: 50+'%', height: 40+'px'}}/>
               <h1>Сумма = {this.state.costs}</h1>
             </div>
         );
