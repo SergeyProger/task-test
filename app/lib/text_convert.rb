@@ -233,8 +233,13 @@ class TextConvert
     integrals_key = :rub_integral
     fractions_key = :rub_fraction
     money_gender = MONEY_GENDERS[:rub]
-
-    money(amount, locale, integrals_key, fractions_key, money_gender, true, false, options)
+    if amount > 999999999
+      return 'Превышен лимит 999999999'
+    elsif amount <= 0
+      return 'Введите сумму'
+    else
+      money(amount, locale, integrals_key, fractions_key, money_gender, true, false, options)
+    end
   end
 
 
