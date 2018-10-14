@@ -78,11 +78,14 @@ class TextConvert
     case arr[2]
       when 1
         str << Tr[arr[2]][1] << Tr[1000000][1]<<' '
-      when 2..4
+      when 2
+        str << Tr[arr[2]][1] << Tr[1000000][2]<<' '
+      when 3..4
         str << Tr[arr[2]] << Tr[1000000][2]<<' '
       when 5..9
         str << Tr[arr[2]] << Tr[1000000][3]<<' '
     end
+
     #hundreds of thousands
     str << hundreds(arr[3])
     #tens of thousands
@@ -112,7 +115,7 @@ class TextConvert
     if arr[7] == 1
       arr[8] = 0
     else
-    str << units(arr[8])
+      str << units(arr[8])
     end
 
     return str + rubli(arr[8])
