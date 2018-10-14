@@ -64,6 +64,9 @@ class TextConvert
 
     #hundreds million
     str << hundreds(arr[0])
+    if(arr[0]!=0 && arr[1]==0 && arr[2]==0)
+      str << ' ' << Tr[1000000][3] << ' '
+    end
 
     ## then million
     case arr[1]
@@ -88,6 +91,9 @@ class TextConvert
 
     #hundreds of thousands
     str << hundreds(arr[3])
+    if(arr[3]!=0 && arr[4]==0 && arr[5]==0)
+      str << ' ' << Tr[1000][3] << ' '
+    end
     #tens of thousands
     case arr[4]
       when 1
