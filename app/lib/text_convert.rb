@@ -71,19 +71,19 @@ class TextConvert
         str << tens(arr[1], arr[2]) << Tr[1000000][3]<<' '
         arr[2] = 0
       when 2..9
-        str << tens(arr[1], arr[2])<<' '
+        str << tens(arr[1], arr[2]) << ' '
     end
 
     # million
     case arr[2]
       when 1
-        str << Tr[arr[2]][1] << Tr[1000000][1]<<' '
+        str << Tr[arr[2]][1] << ' ' << Tr[1000000][1] << ' '
       when 2
-        str << Tr[arr[2]][1] << Tr[1000000][2]<<' '
+        str << Tr[arr[2]][1] << ' ' << Tr[1000000][2] << ' '
       when 3..4
-        str << Tr[arr[2]] << Tr[1000000][2]<<' '
+        str << Tr[arr[2]] << ' ' << Tr[1000000][2] << ' '
       when 5..9
-        str << Tr[arr[2]] << Tr[1000000][3]<<' '
+        str << Tr[arr[2]] << ' ' << Tr[1000000][3] << ' '
     end
 
     #hundreds of thousands
@@ -91,22 +91,22 @@ class TextConvert
     #tens of thousands
     case arr[4]
       when 1
-        str << tens(arr[4], arr[5]) << Tr[1000][3]<<' '
+        str << tens(arr[4], arr[5]) << Tr[1000][3] << ' '
         arr[5] = 0
       when 2..9
-        str << tens(arr[4], arr[5])<<' '
+        str << tens(arr[4], arr[5]) << ' '
     end
 
   # thousands
     case arr[5]
       when 1
-        str << Tr[arr[5]][2] << Tr[1000][1]<<' '
+        str << Tr[arr[5]][2] << ' ' << Tr[1000][1] << ' '
       when 2
-         str << Tr[arr[5]][2] << Tr[1000][2]<<' '
+         str << Tr[arr[5]][2] << ' ' << Tr[1000][2] << ' '
       when 3..4
-        str << Tr[arr[5]] << Tr[1000][2]<<' '
+        str << Tr[arr[5]] << ' ' << Tr[1000][2] << ' '
       when 5..9
-        str << Tr[arr[5]] << Tr[1000][3]<<' '
+        str << Tr[arr[5]] << ' ' << Tr[1000][3] << ' '
     end
 
     str << hundreds(arr[6])
@@ -125,9 +125,9 @@ class TextConvert
   def hundreds num
     case num
       when 1..9
-        return Tr[num*100]<<' '
+        return Tr[num*100] << ' '
       else
-        return ''
+        return ' '
     end
   end
 
@@ -135,11 +135,11 @@ class TextConvert
   def tens(num, next_un)
     case num
       when 1
-       return Tr[next_un+10]<<' '
+       return Tr[next_un+10] << ' '
       when 2..9
-        return Tr[num*10]<<' '
+        return Tr[num*10] << ' '
       else
-        return ''
+        return ' '
     end
   end
 
@@ -147,11 +147,11 @@ class TextConvert
   def units num
     case num
       when 1..2
-        return Tr[num][1]<<' '
+        return Tr[num][1] << ' '
       when 3..9
-        return Tr[num]<<' '
+        return Tr[num] << ' '
       else
-        return ''
+        return ' '
     end
   end
 
