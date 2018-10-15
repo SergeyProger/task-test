@@ -124,8 +124,8 @@ class TextConvert
     else
       str << units(arr[8])
     end
-
-    return str + rubli(arr[8])
+    str << rubli(arr[8])
+    return str.squeeze(" \t")
   end
 
   # hundreds
