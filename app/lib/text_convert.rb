@@ -1,6 +1,6 @@
 class TextConvert
 
-         Tr = {
+         Translations = {
           0 => "ноль",
           1000 => {1 =>"тысяча", 2 => "тысячи", 3 =>"тысяч"},
           1000000 => {1 => "миллион", 2 =>"миллиона", 3 =>"миллионов"},
@@ -46,7 +46,7 @@ class TextConvert
       }
 
 
-  # Выводит число как сумму в рублях прописью
+  # Displays a number as an amount in rubles in words
   def rublej(amount)
     if amount > 999999999
       return 'Превышен лимит 999999999'
@@ -57,21 +57,21 @@ class TextConvert
     end
   end
 
-  # Формирует число прописью
+  # Generates a number in words
   def numbers(number)
     str = ''
-    arr = arr_num(number)
+    arr = num_to_array(number)
 
     #hundreds million
     str << hundreds(arr[0])
     if(arr[0]!=0 && arr[1]==0 && arr[2]==0)
-      str << ' ' << Tr[1000000][3] << ' '
+      str << ' ' << Translations[1000000][3] << ' '
     end
 
-    ## then million
+    # then million
     case arr[1]
       when 1
-        str << tens(arr[1], arr[2]) << Tr[1000000][3]<<' '
+        str << tens(arr[1], arr[2]) << Translations[1000000][3]<<' '
         arr[2] = 0
       when 2..9
         str << tens(arr[1], arr[2]) << ' '
@@ -80,24 +80,25 @@ class TextConvert
     # million
     case arr[2]
       when 1
-        str << Tr[arr[2]][1] << ' ' << Tr[1000000][1] << ' '
+        str << Translations[arr[2]][1] << ' ' << Translations[1000000][1] << ' '
       when 2
-        str << Tr[arr[2]][1] << ' ' << Tr[1000000][2] << ' '
+        str << Translations[arr[2]][1] << ' ' << Translations[1000000][2] << ' '
       when 3..4
-        str << Tr[arr[2]] << ' ' << Tr[1000000][2] << ' '
+        str << Translations[arr[2]] << ' ' << Translations[1000000][2] << ' '
       when 5..9
-        str << Tr[arr[2]] << ' ' << Tr[1000000][3] << ' '
+        str << Translations[arr[2]] << ' ' << Translations[1000000][3] << ' '
     end
 
-    #hundreds of thousands
+    # hundreds of thousands
     str << hundreds(arr[3])
     if(arr[3]!=0 && arr[4]==0 && arr[5]==0)
-      str << ' ' << Tr[1000][3] << ' '
+      str << ' ' << Translations[1000][3] << ' '
     end
-    #tens of thousands
+
+    # tens of thousands
     case arr[4]
       when 1
-        str << tens(arr[4], arr[5]) << Tr[1000][3] << ' '
+        str << tens(arr[4], arr[5]) << Translations[1000][3] << ' '
         arr[5] = 0
       when 2..9
         str << tens(arr[4], arr[5]) << ' '
@@ -106,13 +107,13 @@ class TextConvert
   # thousands
     case arr[5]
       when 1
-        str << Tr[arr[5]][2] << ' ' << Tr[1000][1] << ' '
+        str << Translations[arr[5]][2] << ' ' << Translations[1000][1] << ' '
       when 2
-         str << Tr[arr[5]][2] << ' ' << Tr[1000][2] << ' '
+         str << Translations[arr[5]][2] << ' ' << Translations[1000][2] << ' '
       when 3..4
-        str << Tr[arr[5]] << ' ' << Tr[1000][2] << ' '
+        str << Translations[arr[5]] << ' ' << Translations[1000][2] << ' '
       when 5..9
-        str << Tr[arr[5]] << ' ' << Tr[1000][3] << ' '
+        str << Translations[arr[5]] << ' ' << Translations[1000][3] << ' '
     end
 
     str << hundreds(arr[6])
@@ -128,10 +129,10 @@ class TextConvert
   end
 
   # hundreds
-  def hundreds num
+  def hundreds(num)
     case num
       when 1..9
-        return Tr[num*100] << ' '
+        return Translations[num*100] << ' '
       else
         return ' '
     end
@@ -141,28 +142,28 @@ class TextConvert
   def tens(num, next_un)
     case num
       when 1
-       return Tr[next_un+10] << ' '
+       return Translations[next_un+10] << ' '
       when 2..9
-        return Tr[num*10] << ' '
+        return Translations[num*10] << ' '
       else
         return ' '
     end
   end
 
   # units
-  def units num
+  def units(num)
     case num
       when 1..2
-        return Tr[num][1] << ' '
+        return Translations[num][1] << ' '
       when 3..9
-        return Tr[num] << ' '
+        return Translations[num] << ' '
       else
         return ' '
     end
   end
 
-# разбивает число на масив
-  def arr_num(numb)
+# splits a number into an array
+  def num_to_array(numb)
     arr = []
     chas = numb
     delitel = 100000000
@@ -178,8 +179,8 @@ class TextConvert
     return arr
   end
 
-# склоняет рубль
-  def rubli finish
+# inclines ruble
+  def rubli(finish)
     if finish == 1
         return "рубль"
     elsif finish < 5 && finish > 1
