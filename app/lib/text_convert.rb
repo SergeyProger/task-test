@@ -2,8 +2,8 @@ class TextConvert
 
          Translations = {
           0 => "ноль",
-          1000 => {1 =>"тысяча", 2 => "тысячи", 3 =>"тысяч"},
-          1000000 => {1 => "миллион", 2 =>"миллиона", 3 =>"миллионов"},
+          1000 => {1 =>"тысяча", 2 => "тысячи", 3 => "тысяч"},
+          1000000 => {1 => "миллион", 2 => "миллиона", 3 => "миллионов"},
           #сотни
           100 => "сто",
           200 => "двести",
@@ -71,7 +71,7 @@ class TextConvert
     # then million
     case arr[1]
       when 1
-        str << tens(arr[1], arr[2]) << Translations[1000000][3]<<' '
+        str << tens(arr[1], arr[2]) << Translations[1000000][3]<< ' '
         arr[2] = 0
       when 2..9
         str << tens(arr[1], arr[2]) << ' '
@@ -92,7 +92,7 @@ class TextConvert
     # hundreds of thousands
     str << hundreds(arr[3])
     if(arr[3]!=0 && arr[4]==0 && arr[5]==0)
-      str << ' ' << Translations[1000][3] << ' '
+      str << Translations[1000][3] << ' '
     end
 
     # tens of thousands
@@ -134,7 +134,7 @@ class TextConvert
       when 1..9
         return Translations[num*100] << ' '
       else
-        return ' '
+        return ''
     end
   end
 
@@ -146,7 +146,7 @@ class TextConvert
       when 2..9
         return Translations[num*10] << ' '
       else
-        return ' '
+        return ''
     end
   end
 
@@ -158,7 +158,7 @@ class TextConvert
       when 3..9
         return Translations[num] << ' '
       else
-        return ' '
+        return ''
     end
   end
 

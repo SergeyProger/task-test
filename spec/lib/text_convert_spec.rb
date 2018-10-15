@@ -12,6 +12,8 @@ describe TextConvert do
 
   it 'dozens of' do
     expect(cost.rublej(10)).to eq 'десять рублей'
+    expect(cost.rublej(60)).to eq 'шестьдесят рублей'
+    expect(cost.rublej(90)).to eq 'девяносто рублей'
   end
 
   it 'hundreds' do
