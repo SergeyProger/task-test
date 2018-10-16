@@ -1,6 +1,6 @@
 class TextConvert
 
-         Translations = {
+         TRANSLATIONS = {
           0 => "ноль",
           1000 => {1 =>"тысяча", 2 => "тысячи", 3 => "тысяч"},
           1000000 => {1 => "миллион", 2 => "миллиона", 3 => "миллионов"},
@@ -65,98 +65,94 @@ class TextConvert
     #hundreds million
     str << hundreds(arr[0])
     if(arr[0]!=0 && arr[1]==0 && arr[2]==0)
-      str << ' ' << Translations[1000000][3] << ' '
+      str << ' ' << TRANSLATIONS[1000000][3] << ' '
     end
 
     # then million
-    case arr[1]
-      when 1
-        str << tens(arr[1], arr[2]) << Translations[1000000][3]<< ' '
-        arr[2] = 0
-      when 2..9
-        str << tens(arr[1], arr[2]) << ' '
+    if arr[1]==1
+      str << tens(arr[1], arr[2]) << TRANSLATIONS[1000000][3]<< ' '
+    else
+      str << tens(arr[1], arr[2]) << ' '
     end
-
     # million
-    case arr[2]
-      when 1
-        str << Translations[arr[2]][1] << ' ' << Translations[1000000][1] << ' '
-      when 2
-        str << Translations[arr[2]][1] << ' ' << Translations[1000000][2] << ' '
-      when 3..4
-        str << Translations[arr[2]] << ' ' << Translations[1000000][2] << ' '
-      when 5..9
-        str << Translations[arr[2]] << ' ' << Translations[1000000][3] << ' '
-    end
-
+    str << million_and_thousands(arr[2], 1, 1000000)
     # hundreds of thousands
     str << hundreds(arr[3])
     if(arr[3]!=0 && arr[4]==0 && arr[5]==0)
-      str << Translations[1000][3] << ' '
-    end
-
+     str << TRANSLATIONS[1000][3] << ' '
+   end
     # tens of thousands
-    case arr[4]
-      when 1
-        str << tens(arr[4], arr[5]) << Translations[1000][3] << ' '
-        arr[5] = 0
-      when 2..9
-        str << tens(arr[4], arr[5]) << ' '
-    end
-
-  # thousands
-    case arr[5]
-      when 1
-        str << Translations[arr[5]][2] << ' ' << Translations[1000][1] << ' '
-      when 2
-         str << Translations[arr[5]][2] << ' ' << Translations[1000][2] << ' '
-      when 3..4
-        str << Translations[arr[5]] << ' ' << Translations[1000][2] << ' '
-      when 5..9
-        str << Translations[arr[5]] << ' ' << Translations[1000][3] << ' '
-    end
-
-    str << hundreds(arr[6])
-    str << tens(arr[7], arr[8])
-
-    if arr[7] == 1
-      arr[8] = 0
+    if arr[4]==1
+      str << tens(arr[4], arr[5]) << TRANSLATIONS[1000][3] << ' '
     else
-      str << units(arr[8])
+      str << tens(arr[4], arr[5]) << ' '
     end
-    str << rubli(arr[8])
-    return str.squeeze(" \t")
+    #thousands
+    if arr[4]!=1
+      str << million_and_thousands(arr[5], 2, 1000)
+    end
+    str << hundreds(arr[6])
+
+    str << tens(arr[7], arr[8])
+    if arr[7]!=1
+      str << units(arr[8], 1)
+    end
+
+    str << rubli(arr[7], arr[8])
+    str.squish
   end
 
-  # hundreds
-  def hundreds(num)
+  # million
+  def million_and_thousands(num, position, translation)
     case num
-      when 1..9
-        return Translations[num*100] << ' '
+      when 1
+        return units(num, position) << ' ' << TRANSLATIONS[translation][1] << ' '
+      when 2
+        return units(num, position) << ' ' << TRANSLATIONS[translation][2] << ' '
+      when 3..4
+        return units(num, position) << ' ' << TRANSLATIONS[translation][2] << ' '
+      when 5..9
+        return units(num, position) << ' ' << TRANSLATIONS[translation][3] << ' '
       else
         return ''
     end
+  end
+
+
+
+  # check for a hundred zero
+  def hundred_zero?(arr, num)
+    if(arr[num]!=0 && arr[num+1]==0 && arr[num+2]==0)
+      return true
+    end
+    return false
+  end
+
+
+  # hundreds
+  def hundreds(num)
+    num != 0 ? TRANSLATIONS[num*100] << ' ' : ''
   end
 
   # tens
   def tens(num, next_un)
     case num
       when 1
-       return Translations[next_un+10] << ' '
+       return TRANSLATIONS[next_un+10] << ' '
       when 2..9
-        return Translations[num*10] << ' '
+        return TRANSLATIONS[num*10] << ' '
       else
         return ''
     end
   end
 
   # units
-  def units(num)
+  def units(num, position)
     case num
       when 1..2
-        return Translations[num][1] << ' '
+        return TRANSLATIONS[num][position] << ' '
       when 3..9
-        return Translations[num] << ' '
+        return TRANSLATIONS[num] << ' '
       else
         return ''
     end
@@ -180,7 +176,10 @@ class TextConvert
   end
 
 # inclines ruble
-  def rubli(finish)
+  def rubli(start, finish)
+    if(start==1)
+      return "рублей"
+    end
     if finish == 1
         return "рубль"
     elsif finish < 5 && finish > 1
