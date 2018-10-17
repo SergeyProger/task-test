@@ -60,45 +60,35 @@ class TextConvert
   # Generates a number in words
   def numbers(number)
     str = ''
-    arr = num_to_array(number)
+    @arr = num_to_array(number)
 
     #hundreds million
-    str << hundreds(arr[0])
-    if(arr[0]!=0 && arr[1]==0 && arr[2]==0)
-      str << ' ' << TRANSLATIONS[1000000][3] << ' '
-    end
+    str << hundreds(@arr[0],  1)
 
     # then million
-    if arr[1]==1
-      str << tens(arr[1], arr[2]) << TRANSLATIONS[1000000][3]<< ' '
-    else
-      str << tens(arr[1], arr[2]) << ' '
-    end
+    str << tens(@arr[1],  1)
+
     # million
-    str << million_and_thousands(arr[2], 1, 1000000)
+    str << million_and_thousands(@arr[2], 1, 1000000)
+
     # hundreds of thousands
-    str << hundreds(arr[3])
-    if(arr[3]!=0 && arr[4]==0 && arr[5]==0)
-     str << TRANSLATIONS[1000][3] << ' '
-   end
+    str << hundreds(@arr[3],  2)
+
     # tens of thousands
-    if arr[4]==1
-      str << tens(arr[4], arr[5]) << TRANSLATIONS[1000][3] << ' '
-    else
-      str << tens(arr[4], arr[5]) << ' '
-    end
+    str << tens(@arr[4],  2)
+
     #thousands
-    if arr[4]!=1
-      str << million_and_thousands(arr[5], 2, 1000)
-    end
-    str << hundreds(arr[6])
 
-    str << tens(arr[7], arr[8])
-    if arr[7]!=1
-      str << units(arr[8], 1)
-    end
+    str << million_and_thousands(@arr[5], 2, 1000)
 
-    str << rubli(arr[7], arr[8])
+    str << hundreds(@arr[6],  0)
+
+    str << tens(@arr[7], 1)
+
+    str << units(@arr[8], 1)
+
+    str << rubli(@arr[7], @arr[8])
+
     str.squish
   end
 
@@ -119,28 +109,29 @@ class TextConvert
   end
 
 
-
-  # check for a hundred zero
-  def hundred_zero?(arr, num)
-    if(arr[num]!=0 && arr[num+1]==0 && arr[num+2]==0)
-      return true
-    end
-    return false
-  end
-
-
   # hundreds
-  def hundreds(num)
-    num != 0 ? TRANSLATIONS[num*100] << ' ' : ''
+  def hundreds(num, position)
+    str = ''
+    num != 0 ? str << TRANSLATIONS[num*100] << ' ' : ''
+    if(@arr[num]!=0 && @arr[num+1]==0 && @arr[num+2]==0)
+      if position == 1
+        str << TRANSLATIONS[1000000][3] << ' '
+      elsif postion == 2
+        str << TRANSLATIONS[1000][3] << ' '
+      end
+    end
+    return str
   end
 
   # tens
-  def tens(num, next_un)
+  def tens(num, position)
+    str = ' '
     case num
       when 1
-       return TRANSLATIONS[next_un+10] << ' '
+       str << TRANSLATIONS[@arr[num+1]+10] << ' '
+       @arr[num+1] = 0;
       when 2..9
-        return TRANSLATIONS[num*10] << ' '
+        str << TRANSLATIONS[num*10] << ' '
       else
         return ''
     end
