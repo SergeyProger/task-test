@@ -33,7 +33,7 @@ class TextConvert
           70 => "семьдесят",
           80 => "восемьдесят",
           90 => "девяносто",
-          # единицы, местами - c учетом рода
+          # единицы c учетом рода
           1 => {1 => "один", 2 => "одна"},
           2 => {1 => "два", 2 => "две"},
           3 => "три",
@@ -42,7 +42,7 @@ class TextConvert
           6 => "шесть",
           7 => "семь",
           8 => "восемь",
-          9 => "девять",
+          9 => "девять"
       }
 
 
@@ -60,93 +60,91 @@ class TextConvert
   # Generates a number in words
   def numbers(number)
     str = ''
+    # splits a number into an array
     @arr = num_to_array(number)
 
-    #hundreds million
-    str << hundreds(@arr[0],  1)
-
-    # then million
-    str << tens(@arr[1],  1)
-
-    # million
-    str << million_and_thousands(@arr[2], 1, 1000000)
-
-    # hundreds of thousands
-    str << hundreds(@arr[3],  2)
-
-    # tens of thousands
-    str << tens(@arr[4],  2)
-
-    #thousands
-
-    str << million_and_thousands(@arr[5], 2, 1000)
-
-    str << hundreds(@arr[6],  0)
-
-    str << tens(@arr[7], 1)
-
-    str << units(@arr[8], 1)
-
+    (0..8).step(3) do |i|
+      str << hundreds(@arr[i],  i) # hundreds
+      i+=1
+      str << tens(@arr[i],  i)     # then
+      i+=1
+      str << units(@arr[i], i)     # units
+    end
+    # Adds the inscription rubles
     str << rubli(@arr[7], @arr[8])
-
+    # Removes extra spaces
     str.squish
   end
 
-  # million
-  def million_and_thousands(num, position, translation)
+  # million and thousands
+  def million_and_thousands(num, ts)
     case num
       when 1
-        return units(num, position) << ' ' << TRANSLATIONS[translation][1] << ' '
+        return TRANSLATIONS[ts][1] << ' '
       when 2
-        return units(num, position) << ' ' << TRANSLATIONS[translation][2] << ' '
+        return TRANSLATIONS[ts][2] << ' '
       when 3..4
-        return units(num, position) << ' ' << TRANSLATIONS[translation][2] << ' '
+        return TRANSLATIONS[ts][2] << ' '
       when 5..9
-        return units(num, position) << ' ' << TRANSLATIONS[translation][3] << ' '
+        return TRANSLATIONS[ts][3] << ' '
       else
         return ''
     end
   end
 
+ # if 100 ..900
+  def hundreds_of_thousands_and_millions(position)
+    if(@arr[position]!=0 && @arr[position+1]==0 && @arr[position+2]==0)
+      if position == 0
+        return TRANSLATIONS[1000000][3] << ' '
+      elsif position == 3
+        return TRANSLATIONS[1000][3] << ' '
+      end
+    end
+    return ''
+  end
 
   # hundreds
   def hundreds(num, position)
     str = ''
-    num != 0 ? str << TRANSLATIONS[num*100] << ' ' : ''
-    if(@arr[num]!=0 && @arr[num+1]==0 && @arr[num+2]==0)
-      if position == 1
-        str << TRANSLATIONS[1000000][3] << ' '
-      elsif postion == 2
-        str << TRANSLATIONS[1000][3] << ' '
-      end
-    end
+    num != 0 ? str = TRANSLATIONS[num*100] << ' ' : ''
+     str << hundreds_of_thousands_and_millions(position)
     return str
   end
 
   # tens
   def tens(num, position)
-    str = ' '
+    str = ''
     case num
       when 1
-       str << TRANSLATIONS[@arr[num+1]+10] << ' '
-       @arr[num+1] = 0;
+        str = TRANSLATIONS[@arr[position+1] + 10] << ' '
+        position == 4 ? str << TRANSLATIONS[1000][3]<< ' ' :''
+        position == 1 ? str << TRANSLATIONS[1000000][3]<< ' ' :''
+        @arr[position+1] = 0;
       when 2..9
-        str << TRANSLATIONS[num*10] << ' '
+        str = TRANSLATIONS[num*10] << ' '
       else
         return ''
     end
+    return str
   end
 
   # units
   def units(num, position)
+    str = ''
+    sklon = 0
+    position == 5 ? sklon = 2 : sklon =1
     case num
       when 1..2
-        return TRANSLATIONS[num][position] << ' '
+        str = TRANSLATIONS[num][sklon] << ' '
       when 3..9
-        return TRANSLATIONS[num] << ' '
+        str = TRANSLATIONS[num] << ' '
       else
         return ''
     end
+    position == 2 ? str << million_and_thousands(@arr[2],  1000000) : ''
+    position == 5 ? str << million_and_thousands(@arr[5],  1000) : ''
+    return str
   end
 
 # splits a number into an array
@@ -168,7 +166,7 @@ class TextConvert
 
 # inclines ruble
   def rubli(start, finish)
-    if(start==1)
+    if start == 1
       return "рублей"
     end
     if finish == 1
@@ -179,6 +177,7 @@ class TextConvert
       return "рублей"
     end
   end
+
 end
 
 
