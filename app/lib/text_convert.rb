@@ -1,6 +1,6 @@
 class TextConvert
 
-         Translations = {
+         TRANSLATIONS = {
           0 => "ноль",
           1000 => {1 =>"тысяча", 2 => "тысячи", 3 => "тысяч"},
           1000000 => {1 => "миллион", 2 => "миллиона", 3 => "миллионов"},
@@ -33,7 +33,7 @@ class TextConvert
           70 => "семьдесят",
           80 => "восемьдесят",
           90 => "девяносто",
-          # единицы, местами - c учетом рода
+          # единицы c учетом рода
           1 => {1 => "один", 2 => "одна"},
           2 => {1 => "два", 2 => "две"},
           3 => "три",
@@ -42,7 +42,7 @@ class TextConvert
           6 => "шесть",
           7 => "семь",
           8 => "восемь",
-          9 => "девять",
+          9 => "девять"
       }
 
 
@@ -60,106 +60,93 @@ class TextConvert
   # Generates a number in words
   def numbers(number)
     str = ''
-    arr = num_to_array(number)
+    # splits a number into an array
+    @arr = num_to_array(number)
 
-    #hundreds million
-    str << hundreds(arr[0])
-    if(arr[0]!=0 && arr[1]==0 && arr[2]==0)
-      str << ' ' << Translations[1000000][3] << ' '
+    (0..8).step(3) do |i|
+
+      str << hundreds(@arr[i], i) << ' ' # hundreds
+      # add translation
+      str << hundreds_of_thousands_and_millions(i)
+      i+=1
+      str << tens(@arr[i],  i) << ' '    # then
+      # add translation
+      i == 4 && @arr[i+1] == 0 && @arr[i] != 0 ? str << TRANSLATIONS[1000][3] :''
+      i == 1 && @arr[i+1] == 0 && @arr[i] != 0 ? str << TRANSLATIONS[1000000][3] :''
+      i+=1
+      str << units(@arr[i], i) << ' '    # units
+      # add translation
+      str << million_and_thousands(@arr[i],  1000000)<< ' ' if i == 2 && @arr[i] != 0
+      str << million_and_thousands(@arr[i],  1000)<< ' ' if i == 5 && @arr[i] != 0
     end
+    # Adds the inscription rubles
+    str << rubli(@arr[7], @arr[8])
+    # Removes extra spaces
+    return str.squish
+  end
 
-    # then million
-    case arr[1]
+  # million and thousands
+  def million_and_thousands(num, ts)
+    case num
       when 1
-        str << tens(arr[1], arr[2]) << Translations[1000000][3]<< ' '
-        arr[2] = 0
-      when 2..9
-        str << tens(arr[1], arr[2]) << ' '
-    end
-
-    # million
-    case arr[2]
-      when 1
-        str << Translations[arr[2]][1] << ' ' << Translations[1000000][1] << ' '
+        return TRANSLATIONS[ts][1] << ' '
       when 2
-        str << Translations[arr[2]][1] << ' ' << Translations[1000000][2] << ' '
+        return TRANSLATIONS[ts][2] << ' '
       when 3..4
-        str << Translations[arr[2]] << ' ' << Translations[1000000][2] << ' '
+        return TRANSLATIONS[ts][2] << ' '
       when 5..9
-        str << Translations[arr[2]] << ' ' << Translations[1000000][3] << ' '
+        return TRANSLATIONS[ts][3] << ' '
+      else
+        return ''
     end
+  end
 
-    # hundreds of thousands
-    str << hundreds(arr[3])
-    if(arr[3]!=0 && arr[4]==0 && arr[5]==0)
-      str << Translations[1000][3] << ' '
+ # if 100 ..900
+  def hundreds_of_thousands_and_millions(position)
+    if(@arr[position]!=0 && @arr[position+1]==0 && @arr[position+2]==0)
+      if position == 0
+        return TRANSLATIONS[1000000][3] << ' '
+      elsif position == 3
+        return TRANSLATIONS[1000][3] << ' '
+      end
     end
-
-    # tens of thousands
-    case arr[4]
-      when 1
-        str << tens(arr[4], arr[5]) << Translations[1000][3] << ' '
-        arr[5] = 0
-      when 2..9
-        str << tens(arr[4], arr[5]) << ' '
-    end
-
-  # thousands
-    case arr[5]
-      when 1
-        str << Translations[arr[5]][2] << ' ' << Translations[1000][1] << ' '
-      when 2
-         str << Translations[arr[5]][2] << ' ' << Translations[1000][2] << ' '
-      when 3..4
-        str << Translations[arr[5]] << ' ' << Translations[1000][2] << ' '
-      when 5..9
-        str << Translations[arr[5]] << ' ' << Translations[1000][3] << ' '
-    end
-
-    str << hundreds(arr[6])
-    str << tens(arr[7], arr[8])
-
-    if arr[7] == 1
-      arr[8] = 0
-    else
-      str << units(arr[8])
-    end
-    str << rubli(arr[8])
-    return str.squeeze(" \t")
+    return ''
   end
 
   # hundreds
-  def hundreds(num)
-    case num
-      when 1..9
-        return Translations[num*100] << ' '
-      else
-        return ''
-    end
+  def hundreds(num, position)
+    num != 0 ? str = TRANSLATIONS[num*100]  : str = ''
+    return str
   end
 
   # tens
-  def tens(num, next_un)
+  def tens(num, position)
     case num
       when 1
-       return Translations[next_un+10] << ' '
+        str = TRANSLATIONS[@arr[position+1] + 10]
+        @arr[position+1] = 0
       when 2..9
-        return Translations[num*10] << ' '
+        str = TRANSLATIONS[num*10]
       else
         return ''
     end
+
+    return str
   end
 
   # units
-  def units(num)
+  def units(num, position)
+    position == 5 ? sklon = 2 : sklon = 1
     case num
       when 1..2
-        return Translations[num][1] << ' '
+        str = TRANSLATIONS[num][sklon]
       when 3..9
-        return Translations[num] << ' '
+        str = TRANSLATIONS[num]
       else
         return ''
     end
+
+    return str
   end
 
 # splits a number into an array
@@ -180,7 +167,10 @@ class TextConvert
   end
 
 # inclines ruble
-  def rubli(finish)
+  def rubli(start, finish)
+    if start == 1
+      return "рублей"
+    end
     if finish == 1
         return "рубль"
     elsif finish < 5 && finish > 1
@@ -189,6 +179,7 @@ class TextConvert
       return "рублей"
     end
   end
+
 end
 
 
