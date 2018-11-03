@@ -64,16 +64,25 @@ class TextConvert
     @arr = num_to_array(number)
 
     (0..8).step(3) do |i|
-      str << hundreds(@arr[i],  i) # hundreds
+
+      str << hundreds(@arr[i], i) << ' ' # hundreds
+      # add translation
+      str << hundreds_of_thousands_and_millions(i)
       i+=1
-      str << tens(@arr[i],  i)     # then
+      str << tens(@arr[i],  i) << ' '    # then
+      # add translation
+      i == 4 && @arr[i+1] == 0 && @arr[i] != 0 ? str << TRANSLATIONS[1000][3] :''
+      i == 1 && @arr[i+1] == 0 && @arr[i] != 0 ? str << TRANSLATIONS[1000000][3] :''
       i+=1
-      str << units(@arr[i], i)     # units
+      str << units(@arr[i], i) << ' '    # units
+      # add translation
+      str << million_and_thousands(@arr[i],  1000000)<< ' ' if i == 2 && @arr[i] != 0
+      str << million_and_thousands(@arr[i],  1000)<< ' ' if i == 5 && @arr[i] != 0
     end
     # Adds the inscription rubles
     str << rubli(@arr[7], @arr[8])
     # Removes extra spaces
-    str.squish
+    return str.squish
   end
 
   # million and thousands
@@ -106,44 +115,37 @@ class TextConvert
 
   # hundreds
   def hundreds(num, position)
-    str = ''
-    num != 0 ? str = TRANSLATIONS[num*100] << ' ' : ''
-     str << hundreds_of_thousands_and_millions(position)
+    num != 0 ? str = TRANSLATIONS[num*100]  : str = ''
     return str
   end
 
   # tens
   def tens(num, position)
-    str = ''
     case num
       when 1
-        str = TRANSLATIONS[@arr[position+1] + 10] << ' '
-        position == 4 ? str << TRANSLATIONS[1000][3]<< ' ' :''
-        position == 1 ? str << TRANSLATIONS[1000000][3]<< ' ' :''
-        @arr[position+1] = 0;
+        str = TRANSLATIONS[@arr[position+1] + 10]
+        @arr[position+1] = 0
       when 2..9
-        str = TRANSLATIONS[num*10] << ' '
+        str = TRANSLATIONS[num*10]
       else
         return ''
     end
+
     return str
   end
 
   # units
   def units(num, position)
-    str = ''
-    sklon = 0
-    position == 5 ? sklon = 2 : sklon =1
+    position == 5 ? sklon = 2 : sklon = 1
     case num
       when 1..2
-        str = TRANSLATIONS[num][sklon] << ' '
+        str = TRANSLATIONS[num][sklon]
       when 3..9
-        str = TRANSLATIONS[num] << ' '
+        str = TRANSLATIONS[num]
       else
         return ''
     end
-    position == 2 ? str << million_and_thousands(@arr[2],  1000000) : ''
-    position == 5 ? str << million_and_thousands(@arr[5],  1000) : ''
+
     return str
   end
 
