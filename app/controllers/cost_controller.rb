@@ -1,6 +1,8 @@
 class CostController < ApplicationController
   protect_from_forgery with: :null_session
-# branch commit conflict
+
+# branch 1 commit conflict
+
   def index
     if params[:cost]
       convert = TextConvert.new
