@@ -46,7 +46,7 @@ class TextConvert
       }
 
 
-  # Displays a number as an amount in rubles in words
+  # Displays a number as an amount in rubles in words add test comit
   def rublej(amount)
     if amount > 999999999
       return 'Превышен лимит 999999999'

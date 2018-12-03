@@ -1,0 +1,46 @@
+[33mcommit f8485e94a36a4f52bf1ef318db027529c4b89843[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: 57f4275 25b6436
+Author: Sergey <sergeykogut1@gmail.com>
+Date:   Mon Nov 19 14:57:05 2018 +0200
+
+    test conflict
+
+[33mcommit 57f42753ee77c3756e9deb12e3d6e480aca4c014[m
+Author: Sergey <sergeykogut1@gmail.com>
+Date:   Mon Nov 19 14:54:51 2018 +0200
+
+    test conflict
+
+[33mcommit 2ffc7160a9f62fd196ea6a960f1ff490aabed5de[m[33m ([m[1;31morigin/testConflict[m[33m, [m[1;32mtestConflict[m[33m)[m
+Author: Sergey <sergeykogut1@gmail.com>
+Date:   Mon Nov 19 14:28:32 2018 +0200
+
+    master test conflict
+
+[33mcommit 25b6436d66a74a9aded563b53292232e7ee78811[m
+Merge: 5531a59 26f3e2c
+Author: Сергей <kogutsergey1@gmail.com>
+Date:   Mon Nov 19 14:24:41 2018 +0200
+
+    Merge pull request #2 from SergeyProger/testCONFLICT
+    
+    test conflict
+
+[33mcommit 26f3e2cedade58485a55c1cb79242e73d9f754f0[m
+Author: Сергей <kogutsergey1@gmail.com>
+Date:   Mon Nov 19 14:23:46 2018 +0200
+
+    Update cost_controller.rb
+
+[33mcommit c44add5b991fa43db058dd56f818bb29a431b523[m
+Merge: 508254d 5531a59
+Author: Сергей <kogutsergey1@gmail.com>
+Date:   Mon Nov 19 14:20:08 2018 +0200
+
+    Merge branch 'master' into testCONFLICT
+
+[33mcommit 508254d6877aac8816db6554c0fb1f2d28f39b9b[m[33m ([m[1;36mHEAD -> [m[1;32mtestCONFLICT[m[33m, [m[1;31morigin/testCONFLICT[m[33m)[m
+Author: Sergey <sergeykogut1@gmail.com>
+Date:   Mon Nov 19 14:12:40 2018 +0200
+
+    test conflict
