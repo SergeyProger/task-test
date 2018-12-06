@@ -16,7 +16,6 @@ You may use a front-end framework: Vue, React or Angular.
 Please do this on your github account as a public repo. Make frequent commits and use best practices. 
 
 ## Project installation
-
 1) git clone https://github.com/SergeyProger/task-test.git
 2) cd task-test/
 3) bundle install
