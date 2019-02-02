@@ -1,5 +1,4 @@
 # Test task project
-
 Task description
 
 Create a Rails application, which will convert a number to a money string (please, choose Russian or Ukrainian language). 
@@ -28,6 +27,7 @@ Please do this on your github account as a public repo. Make frequent commits an
 ## Heroku project
 The work of the project can be viewed on [heroku](https://convert-ru.herokuapp.com)
 
+
 ## Task execution
  When performing this task, the Russian language was chosen and the corresponding currency was rubles.
 I use the front-end framework: [React](https://github.com/reactjs/react-rails).
@@ -35,3 +35,6 @@ Implemented the main server-side logic (Ruby). The logic is moved to the TextCon
 
 ## P.S.
  Thank you for the interesting task.
+
+
+
