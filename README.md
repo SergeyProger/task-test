@@ -35,3 +35,4 @@ Implemented the main server-side logic (Ruby). The logic is moved to the TextCon
 
 ## P.S.
  Thank you for the interesting task.
+
