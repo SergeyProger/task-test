@@ -1,5 +1,6 @@
 # Test task project
-a
+a 
+
 Task description
 
 Create a Rails application, which will convert a number to a money string (please, choose Russian or Ukrainian language). 
