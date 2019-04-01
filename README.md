@@ -22,7 +22,7 @@ Please do this on your github account as a public repo. Make frequent commits an
 5) rails s
 6) To run the tests you need to create a database using the console command rake db:create
 7) Тests are run by the command - rspec
-
+=
 ## Heroku project
 The work of the project can be viewed on [heroku](https://convert-ru.herokuapp.com)
 
