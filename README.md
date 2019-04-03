@@ -1,6 +1,9 @@
 # Test task project
 Task description
-
+ 
+ 
+ 
+ 
 Create a Rails application, which will convert a number to a money string (please, choose Russian or Ukrainian language). 
 Application has to convert 1 to “одна гривна“, 1234567 to “один миллион двести тридцать четыре тысячи пятьсот шестьдесят семь гривен“, 
 etc. Words should have correct endings: “1 гривна“, “2 гривны“, “5 гривен“, “3 миллиона“, “3 тысячи“, etc. (provided examples are for Russian)
