@@ -32,4 +32,3 @@ The work of the project can be viewed on [heroku](https://convert-ru.herokuapp.c
 I use the front-end framework: [React](https://github.com/reactjs/react-rails).
 Implemented the main server-side logic (Ruby). The logic is moved to the TextConvert class in the [app/lib](https://github.com/SergeyProger/task-test/blob/master/app/lib/text_convert.rb) folder.
 
-
